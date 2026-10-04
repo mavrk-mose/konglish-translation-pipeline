@@ -1,0 +1,80 @@
+model:
+  teacher: facebook/nllb-200-distilled-600M
+
+languages:
+  korean: kor_Hang
+  english: eng_Latn
+
+translation:
+  ko_to_en:
+    source_lang: kor_Hang
+    target_lang: eng_Latn
+  en_to_ko:
+    source_lang: eng_Latn
+    target_lang: kor_Hang
+
+data:
+  human_pairs: data/raw/human_parallel.jsonl
+  processed_dir: data/processed
+  konglish_eval: data/raw/konglish_eval.jsonl
+  monolingual_ko: data/raw/monolingual_ko.txt
+  monolingual_en: data/raw/monolingual_en.txt
+  train_pairs: 5000
+  validation_pairs: 500
+  test_pairs: 500
+  train_ratio: 0.8333333333
+  validation_ratio: 0.0833333333
+  test_ratio: 0.0833333334
+
+training:
+  learning_rate: 2.0e-5
+  epochs: 2
+  max_source_length: 128
+  max_target_length: 128
+  batch_size: 1
+  gradient_accumulation_steps: 4
+  weight_decay: 0.01
+  seed: 42
+  logging_steps: 10
+  eval_batch_size: 1
+  lora:
+    rank: 8
+    alpha: 16
+    dropout: 0.05
+
+distillation:
+  max_examples_per_direction: 10000
+  synthetic_to_human_ratio: 0.5
+  generation_batch_size: 4
+  max_new_tokens: 128
+  require_lora_chrf_improvement: true
+
+student:
+  architecture: MarianMT (Helsinki-NLP OPUS-MT)
+  rationale: >-
+    Use the published 77M-class ko-en Marian checkpoint and the 209M-parameter
+    tc-big en-ko Marian checkpoint because the standard Helsinki-NLP en-ko
+    checkpoint is not available. Their estimated combined size is within the
+    100M-300M student target. Marian is supported by Transformers and ONNX
+    Runtime export. The checkpoints have different Apache-2.0 and CC-BY-4.0
+    licenses; preserve attribution and validate both directions empirically.
+  ko_en_model: Helsinki-NLP/opus-mt-ko-en
+  en_ko_model: Helsinki-NLP/opus-mt-tc-big-en-ko
+  target_parameters_min: 100000000
+  target_parameters_max: 300000000
+
+quantization:
+  enabled: true
+  type: int8
+  format: onnxruntime-dynamic-int8
+  provider: CPUExecutionProvider
+
+evaluation:
+  directions:
+    - ko_en
+    - en_ko
+  student_fp32_device: cpu
+  max_new_tokens: 128
+  num_beams: 4
+  latency_warmup: 2
+  latency_repeats: 1
