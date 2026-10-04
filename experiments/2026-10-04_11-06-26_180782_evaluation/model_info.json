@@ -1,0 +1,22 @@
+{
+  "model": "Available NLLB, LoRA, and Marian artifacts",
+  "seed": 42,
+  "dataset_version": {
+    "data/processed/test.jsonl": "a78760ab668891778951f421bd59df75bf032aee62043d1fd8bed9a305a7009a",
+    "data/raw/konglish_eval.jsonl": "b52c7f155484d00c646319d0557e1e02dfc150edc660c6511f268a524c05f201"
+  },
+  "training": {
+    "evaluation": {
+      "directions": [
+        "ko_en",
+        "en_ko"
+      ],
+      "student_fp32_device": "cpu",
+      "max_new_tokens": 128,
+      "num_beams": 4,
+      "latency_warmup": 2,
+      "latency_repeats": 1
+    }
+  },
+  "created_at": "2026-10-04T02:06:26.204535+00:00"
+}

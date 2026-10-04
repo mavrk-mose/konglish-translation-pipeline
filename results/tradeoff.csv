@@ -1,2 +1,3 @@
 model,dataset,device,parameters,precision,model_size_mb,ko_en_bleu,ko_en_chrf,en_ko_bleu,en_ko_chrf,ko_en_mean_latency_ms,ko_en_median_latency_ms,ko_en_p95_latency_ms,en_ko_mean_latency_ms,en_ko_median_latency_ms,en_ko_p95_latency_ms,mean_latency_ms,median_latency_ms,p95_latency_ms
-NLLB-600M,test,mps,615073792,FP32,2346.32,29.0319,43.8687,7.6465,10.2467,807.73,807.73,910.751,759.883,759.883,799.301,783.807,783.807,910.751
+NLLB-600M,test,mps,615073792,FP32,2346.32,29.0319,43.8687,7.6465,10.2467,353.939,353.939,407.377,288.967,288.967,323.533,321.453,321.453,407.377
+NLLB-600M + LoRA,test,mps,616253440,FP32,2390.769,29.0319,43.8687,7.6465,10.2467,354.522,354.522,407.415,301.139,301.139,336.54,327.831,327.831,407.415

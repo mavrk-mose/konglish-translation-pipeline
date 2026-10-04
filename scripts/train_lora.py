@@ -136,7 +136,19 @@ def main() -> None:
         data_collator=DataCollatorForSeq2Seq(tokenizer, model=model, label_pad_token_id=-100),
         processing_class=tokenizer,
     )
-    trainer.train()
+    train_result = trainer.train()
+    training_logs = [
+        entry
+        for entry in trainer.state.log_history
+        if "loss" in entry and "grad_norm" in entry
+    ]
+    if not training_logs:
+        raise RuntimeError("Training completed without logged loss and gradient norm values.")
+    print(
+        f"Optimization steps: {trainer.state.global_step}/{trainer.state.max_steps}"
+    )
+    print(f"Training loss: {train_result.metrics['train_loss']}")
+    print(f"Gradient norm: {training_logs[-1]['grad_norm']}")
     model.config.use_cache = True
     artifact.mkdir(parents=True, exist_ok=False)
     trainer.save_model(str(artifact))
