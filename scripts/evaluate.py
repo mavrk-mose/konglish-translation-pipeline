@@ -133,6 +133,37 @@ def metric_record(
     }
 
 
+def print_examples(
+    direction: str,
+    dataset_name: str,
+    rows: list[dict[str, str]],
+    predictions: list[str],
+) -> None:
+    direction_label = "KO → EN" if direction == "ko_en" else "EN → KO"
+    if dataset_name == "test":
+        title = f"NLLB-600M {direction_label} TEST EXAMPLES"
+        example_count = 10
+    elif dataset_name == "konglish_eval":
+        title = f"NLLB-600M {direction_label} KONGLISH EVAL EXAMPLES"
+        example_count = 5
+    else:
+        return
+
+    source_key, target_key, _ = DIRECTIONS[direction]
+    print(f"\n=== {title} ===\n")
+    if len(rows) < example_count:
+        print(
+            f"Showing {len(rows)} of {example_count} requested examples; "
+            "the dataset has fewer.\n"
+        )
+    for index, (row, prediction) in enumerate(zip(rows, predictions), start=1):
+        if index > example_count:
+            break
+        print(f"{index}. Source: {row[source_key]}")
+        print(f"   Reference: {row[target_key]}")
+        print(f"   Prediction: {prediction}\n")
+
+
 def evaluate_dataset(
     kind: str,
     label: str,
@@ -207,6 +238,8 @@ def evaluate_dataset(
         device,
     )
     record["latency_by_word_count"] = length_benchmarks
+    if kind == "baseline":
+        print_examples(direction, dataset_name, rows, predictions)
     return record
 
 

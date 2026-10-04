@@ -79,7 +79,8 @@ def main() -> None:
     print(f"Training configuration: {config['training']}")
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+    model_load_kwargs = {"attn_implementation": "eager"} if device.type == "mps" else {}
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_name, **model_load_kwargs)
     model.config.use_cache = False
     lora = config["training"]["lora"]
     model = get_peft_model(
@@ -122,6 +123,8 @@ def main() -> None:
         fp16=False,
         use_cpu=device.type == "cpu",
         gradient_checkpointing=True,
+        gradient_checkpointing_kwargs={"use_reentrant": False},
+        dataloader_pin_memory=device.type != "mps",
         seed=training["seed"],
         data_seed=training["seed"],
     )
