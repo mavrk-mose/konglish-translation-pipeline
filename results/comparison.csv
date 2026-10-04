@@ -1,0 +1,7 @@
+model,direction,dataset,device,precision,parameters,model_size_mb,bleu,chrf,comet,model_loading_seconds,mean_latency_ms,median_latency_ms,p95_latency_ms
+NLLB-600M,ko_en,validation,mps,FP32,615073792,2346.32,77.8113,76.5716,,11.313,1934.005,1934.005,2127.311
+NLLB-600M,ko_en,test,mps,FP32,615073792,2346.32,29.0319,43.8687,,11.313,807.73,807.73,910.751
+NLLB-600M,ko_en,konglish_eval,mps,FP32,615073792,2346.32,34.1248,49.5661,,11.313,1092.191,1046.782,2424.23
+NLLB-600M,en_ko,validation,mps,FP32,615073792,2346.32,19.7406,39.2059,,9.78,306.576,306.576,314.255
+NLLB-600M,en_ko,test,mps,FP32,615073792,2346.32,7.6465,10.2467,,9.78,759.883,759.883,799.301
+NLLB-600M,en_ko,konglish_eval,mps,FP32,615073792,2346.32,2.8235,17.0742,,9.78,1170.83,1124.896,2936.636

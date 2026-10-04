@@ -1,0 +1,176 @@
+[
+  {
+    "model": "NLLB-600M",
+    "model_type": "baseline",
+    "model_path": "NLLB-600M",
+    "direction": "ko_en",
+    "dataset": "validation",
+    "device": "mps",
+    "precision": "FP32",
+    "parameters": 615073792,
+    "model_size_mb": 2346.32,
+    "bleu": 77.8113,
+    "chrf": 76.5716,
+    "comet": null,
+    "mean_latency_ms": 385.455,
+    "median_latency_ms": 385.455,
+    "p95_latency_ms": 397.019,
+    "model_loading_seconds": 11.403,
+    "evaluated_examples": 2,
+    "notes": "COMET omitted; no COMET model/dependency configured.",
+    "latency_by_word_count": {
+      "1-10_words": {
+        "mean_latency_ms": 377.1223959920462,
+        "median_latency_ms": 377.1223959920462,
+        "p95_latency_ms": 397.90904201800004,
+        "examples": 2
+      }
+    }
+  },
+  {
+    "model": "NLLB-600M",
+    "model_type": "baseline",
+    "model_path": "NLLB-600M",
+    "direction": "ko_en",
+    "dataset": "test",
+    "device": "mps",
+    "precision": "FP32",
+    "parameters": 615073792,
+    "model_size_mb": 2346.32,
+    "bleu": 29.0319,
+    "chrf": 43.8687,
+    "comet": null,
+    "mean_latency_ms": 623.918,
+    "median_latency_ms": 623.918,
+    "p95_latency_ms": 803.95,
+    "model_loading_seconds": 11.403,
+    "evaluated_examples": 2,
+    "notes": "COMET omitted; no COMET model/dependency configured.",
+    "latency_by_word_count": {
+      "1-10_words": {
+        "mean_latency_ms": 526.8782500061207,
+        "median_latency_ms": 526.8782500061207,
+        "p95_latency_ms": 593.9121670089662,
+        "examples": 2
+      }
+    }
+  },
+  {
+    "model": "NLLB-600M",
+    "model_type": "baseline",
+    "model_path": "NLLB-600M",
+    "direction": "ko_en",
+    "dataset": "konglish_eval",
+    "device": "mps",
+    "precision": "FP32",
+    "parameters": 615073792,
+    "model_size_mb": 2346.32,
+    "bleu": 34.1248,
+    "chrf": 49.5661,
+    "comet": null,
+    "mean_latency_ms": 757.565,
+    "median_latency_ms": 676.165,
+    "p95_latency_ms": 1346.323,
+    "model_loading_seconds": 11.403,
+    "evaluated_examples": 18,
+    "notes": "COMET omitted; no COMET model/dependency configured.",
+    "latency_by_word_count": {
+      "1-10_words": {
+        "mean_latency_ms": 714.9403332764955,
+        "median_latency_ms": 659.0964579954743,
+        "p95_latency_ms": 1257.7936670277268,
+        "examples": 18
+      }
+    }
+  },
+  {
+    "model": "NLLB-600M",
+    "model_type": "baseline",
+    "model_path": "NLLB-600M",
+    "direction": "en_ko",
+    "dataset": "validation",
+    "device": "mps",
+    "precision": "FP32",
+    "parameters": 615073792,
+    "model_size_mb": 2346.32,
+    "bleu": 19.7406,
+    "chrf": 39.2059,
+    "comet": null,
+    "mean_latency_ms": 279.704,
+    "median_latency_ms": 279.704,
+    "p95_latency_ms": 280.466,
+    "model_loading_seconds": 5.58,
+    "evaluated_examples": 2,
+    "notes": "COMET omitted; no COMET model/dependency configured.",
+    "latency_by_word_count": {
+      "1-10_words": {
+        "mean_latency_ms": 281.6704374854453,
+        "median_latency_ms": 281.6704374854453,
+        "p95_latency_ms": 284.38729199115187,
+        "examples": 2
+      }
+    }
+  },
+  {
+    "model": "NLLB-600M",
+    "model_type": "baseline",
+    "model_path": "NLLB-600M",
+    "direction": "en_ko",
+    "dataset": "test",
+    "device": "mps",
+    "precision": "FP32",
+    "parameters": 615073792,
+    "model_size_mb": 2346.32,
+    "bleu": 7.6465,
+    "chrf": 10.2467,
+    "comet": null,
+    "mean_latency_ms": 320.769,
+    "median_latency_ms": 320.769,
+    "p95_latency_ms": 358.707,
+    "model_loading_seconds": 5.58,
+    "evaluated_examples": 2,
+    "notes": "COMET omitted; no COMET model/dependency configured.",
+    "latency_by_word_count": {
+      "1-10_words": {
+        "mean_latency_ms": 389.4452294916846,
+        "median_latency_ms": 389.4452294916846,
+        "p95_latency_ms": 485.3066669893451,
+        "examples": 2
+      }
+    }
+  },
+  {
+    "model": "NLLB-600M",
+    "model_type": "baseline",
+    "model_path": "NLLB-600M",
+    "direction": "en_ko",
+    "dataset": "konglish_eval",
+    "device": "mps",
+    "precision": "FP32",
+    "parameters": 615073792,
+    "model_size_mb": 2346.32,
+    "bleu": 2.8235,
+    "chrf": 17.0742,
+    "comet": null,
+    "mean_latency_ms": 591.085,
+    "median_latency_ms": 558.165,
+    "p95_latency_ms": 1093.548,
+    "model_loading_seconds": 5.58,
+    "evaluated_examples": 18,
+    "notes": "COMET omitted; no COMET model/dependency configured.",
+    "latency_by_word_count": {
+      "1-10_words": {
+        "mean_latency_ms": 524.0264139409798,
+        "median_latency_ms": 493.35716699715704,
+        "p95_latency_ms": 835.6492919847369,
+        "examples": 15
+      },
+      "11-20_words": {
+        "mean_latency_ms": 721.742624999024,
+        "median_latency_ms": 728.178791992832,
+        "p95_latency_ms": 765.0970830000006,
+        "examples": 3
+      }
+    }
+  }
+]

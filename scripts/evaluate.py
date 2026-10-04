@@ -109,6 +109,7 @@ def metric_record(
     load_seconds: float,
     parameters: int | None,
     size_bytes: int | None,
+    device,
 ) -> dict:
     return {
         "model": model_label,
@@ -203,6 +204,7 @@ def evaluate_dataset(
         load_seconds,
         parameter_total,
         size,
+        device,
     )
     record["latency_by_word_count"] = length_benchmarks
     return record
