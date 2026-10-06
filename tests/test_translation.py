@@ -11,7 +11,77 @@ from scripts.common import (
     read_jsonl,
     require_lora_improvement,
 )
+from scripts.import_hf_dataset import (
+    filter_by_token_length,
+    filter_candidate_rows,
+    select_rows,
+    write_pairs_with_backup,
+)
 from scripts.prepare_data import split_pairs, write_split
+
+
+class HuggingFaceImporterTests(unittest.TestCase):
+    class WhitespaceTokenizer:
+        src_lang = None
+
+        def __call__(self, texts, **kwargs):
+            return {"input_ids": [[0, *text.split(), 1] for text in texts]}
+
+    def test_filters_invalid_short_low_score_and_duplicate_rows(self):
+        rows = [
+            {"korean": None, "english": "three English words", "score": 0.9},
+            {"korean": "짧음", "english": "three English words", "score": 0.9},
+            {"korean": "세 개의 한국어", "english": "two words", "score": 0.9},
+            {"korean": "세 개의 한국어", "english": "three English words", "score": 0.84},
+            {"korean": "세 개의 한국어", "english": "three English words", "score": 0.9},
+            {"korean": "세 개의 한국어", "english": "three English words", "score": 0.95},
+        ]
+
+        filtered, duplicates_removed = filter_candidate_rows(rows, min_score=0.85)
+
+        self.assertEqual(duplicates_removed, 1)
+        self.assertEqual(filtered, [{
+            "ko": "세 개의 한국어",
+            "en": "three English words",
+            "score": 0.9,
+        }])
+
+    def test_filters_text_exceeding_model_token_limit(self):
+        rows = [
+            {"ko": "하나 둘 셋", "en": "one two three", "score": 0.9},
+            {"ko": "하나 둘 셋 넷 다섯", "en": "one two three", "score": 0.9},
+        ]
+
+        filtered = filter_by_token_length(rows, self.WhitespaceTokenizer(), max_tokens=5)
+
+        self.assertEqual(filtered, rows[:1])
+
+    def test_sampling_is_seeded_and_respects_limit(self):
+        rows = [{"ko": str(index), "en": str(index), "score": 0.9} for index in range(20)]
+
+        first = select_rows(rows, limit=5, seed=42)
+        second = select_rows(rows, limit=5, seed=42)
+
+        self.assertEqual(first, second)
+        self.assertEqual(len(first), 5)
+
+    def test_existing_source_is_backed_up_before_replacement(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "human_parallel.jsonl"
+            backup = Path(directory) / "human_parallel_seed_backup.jsonl"
+            output.write_text('{"ko":"seed","en":"pair"}\n', encoding="utf-8")
+
+            write_pairs_with_backup(
+                output,
+                backup,
+                [{"ko": "새 문장 세 개", "en": "three new words", "score": 0.9}],
+            )
+
+            self.assertEqual(backup.read_text(encoding="utf-8"), '{"ko":"seed","en":"pair"}\n')
+            self.assertEqual(
+                output.read_text(encoding="utf-8"),
+                '{"ko": "새 문장 세 개", "en": "three new words"}\n',
+            )
 
 
 class TranslationPipelineTests(unittest.TestCase):

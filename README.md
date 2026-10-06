@@ -29,10 +29,20 @@ The scripts select CUDA, then Apple Silicon MPS, then CPU. Training uses conserv
 
 ## Data preparation and baseline
 
+Import a deterministic, score-filtered sample from the Hugging Face
+[`lemon-mint/korean_english_parallel_wiki_augmented_v1`](https://huggingface.co/datasets/lemon-mint/korean_english_parallel_wiki_augmented_v1)
+dataset before preparing splits. Rows require a score of at least `0.85`, at least
+three whitespace-separated words per language, and no more than the configured
+128-token sequence limit. The original seed corpus is preserved on first import
+at `data/raw/human_parallel_seed_backup.jsonl`.
+
 ```bash
+python scripts/import_hf_dataset.py --limit 10000 --min-score 0.85
 python scripts/prepare_data.py
 python scripts/evaluate.py
 ```
+
+Use `--limit 50000` to import a larger sample; sampling uses seed 42.
 
 The split script prints actual split counts. Keep the upstream license and provenance for every added corpus, deduplicate before adding it, and do not put test examples into the monolingual generation files. The baseline evaluation measures `facebook/nllb-200-distilled-600M` separately in both directions, with `kor_Hang` and `eng_Latn` explicitly configured.
 
